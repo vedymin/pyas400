@@ -23,6 +23,12 @@ class ConnectionManager:
 
         return connections
 
+    def check_logged_in(self, session):
+        if self.get_text(1, 36, 7, connection_name=session) == "Sign On":
+            return False
+        else:
+            return True
+
     def open_session(self, connection_name):
         _session = win32com.client.Dispatch("PCOMM.autECLSession")
         _session.SetConnectionByName(connection_name)
@@ -64,7 +70,6 @@ class ConnectionManager:
                 temp_session.autECLPS.SendKeys("%s" % key, row, col)
 
             n += 1
-
 
 # conn = ConnectionManager()
 # d = conn.get_available_connections()
