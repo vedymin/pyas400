@@ -18,7 +18,8 @@ class ConnectionManager:
 
         connections = []
         for i in range(self.connList.Count):
-            connections.append(self.connList(i + 1).Name)
+            if self.connList(i + 1).Ready:
+                connections.append(self.connList(i + 1).Name)
 
         return connections
 
