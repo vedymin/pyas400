@@ -8,6 +8,7 @@ class ConnectionManager:
 
     def __init__(self):
         self.PCommConnMgr = win32com.client.Dispatch("PCOMM.autECLConnMgr")
+        # self.OIA = win32com.client.Dispatch("PCOMM.autECLOIAObj")
         self.connList = self.PCommConnMgr.autECLConnList
 
         self.activeSession = None
@@ -56,20 +57,22 @@ class ConnectionManager:
         result = temp_session.autECLPS.GetText(row, col, length)
         return result
 
-    def send_keys(self, count, key, row=None, col=None, connection_name=None):
+    def send_keys(self, key, row=None, col=None, connection_name=None):
         temp_session = self.activeSession
         if connection_name is not None:
             temp_session = self.sessions[connection_name]
 
-        n = 0
-        while n < count:
-            if row is None or col is None:
-                temp_session.autECLPS.SendKeys("%s" % key)
+        if row is None or col is None:
+            temp_session.autECLPS.SendKeys("%s" % key)
 
-            else:
-                temp_session.autECLPS.SendKeys("%s" % key, row, col)
+        else:
+            temp_session.autECLPS.SendKeys("%s" % key, row, col)
 
-            n += 1
+
+    def enter(self):
+        self.send_keys("[enter]")
+
+
 
 # conn = ConnectionManager()
 # d = conn.get_available_connections()
